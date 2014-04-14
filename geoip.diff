@@ -1,0 +1,20 @@
+diff --git a/configure b/configure
+index 434b471..13a0b86 100755
+--- a/configure
++++ b/configure
+@@ -12562,7 +12562,6 @@ else
+ esac
+ 
+ 
+-$as_echo "#define malloc rpl_malloc" >>confdefs.h
+ 
+ fi
+ 
+@@ -12629,7 +12628,6 @@ else
+ esac
+ 
+ 
+-$as_echo "#define realloc rpl_realloc" >>confdefs.h
+ 
+ fi
+ 

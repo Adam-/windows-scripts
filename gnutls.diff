@@ -1,0 +1,92 @@
+diff --git a/configure b/configure
+index 4b78e73..6cddbab 100755
+--- a/configure
++++ b/configure
+@@ -8371,43 +8371,11 @@ fi
+ 
+ 
+ 
+-if test $pkg_failed = yes; then
+-
+-if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+-        _pkg_short_errors_supported=yes
+-else
+-        _pkg_short_errors_supported=no
+-fi
+-        if test $_pkg_short_errors_supported = yes; then
+-	        NETTLE_PKG_ERRORS=`$PKG_CONFIG --short-errors --errors-to-stdout --print-errors "nettle >= 2.7"`
+-        else
+-	        NETTLE_PKG_ERRORS=`$PKG_CONFIG --errors-to-stdout --print-errors "nettle >= 2.7"`
+-        fi
+-	# Put the nasty error message in config.log where it belongs
+-	echo "$NETTLE_PKG_ERRORS" >&5
+-
+-	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+-$as_echo "no" >&6; }
+-
+-as_fn_error $? "
+-  ***
+-  *** Libnettle 2.7 was not found.
+-" "$LINENO" 5
+-
+-elif test $pkg_failed = untried; then
+-
+-as_fn_error $? "
+-  ***
+-  *** Libnettle 2.7 was not found.
+-" "$LINENO" 5
+-
+-else
+ 	NETTLE_CFLAGS=$pkg_cv_NETTLE_CFLAGS
+ 	NETTLE_LIBS=$pkg_cv_NETTLE_LIBS
+         { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+ $as_echo "yes" >&6; }
+ 	cryptolib="nettle"
+-fi
+ 
+ pkg_failed=no
+ { $as_echo "$as_me:${as_lineno-$LINENO}: checking for HOGWEED" >&5
+@@ -8452,43 +8420,11 @@ fi
+ 
+ 
+ 
+-if test $pkg_failed = yes; then
+-
+-if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+-        _pkg_short_errors_supported=yes
+-else
+-        _pkg_short_errors_supported=no
+-fi
+-        if test $_pkg_short_errors_supported = yes; then
+-	        HOGWEED_PKG_ERRORS=`$PKG_CONFIG --short-errors --errors-to-stdout --print-errors "hogweed >= 2.7"`
+-        else
+-	        HOGWEED_PKG_ERRORS=`$PKG_CONFIG --errors-to-stdout --print-errors "hogweed >= 2.7"`
+-        fi
+-	# Put the nasty error message in config.log where it belongs
+-	echo "$HOGWEED_PKG_ERRORS" >&5
+-
+-	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+-$as_echo "no" >&6; }
+-
+-as_fn_error $? "
+-  ***
+-  *** Libhogweed (nettle's companion library) was not found. Note that you must compile nettle with gmp support.
+-" "$LINENO" 5
+-
+-elif test $pkg_failed = untried; then
+-
+-as_fn_error $? "
+-  ***
+-  *** Libhogweed (nettle's companion library) was not found. Note that you must compile nettle with gmp support.
+-" "$LINENO" 5
+-
+-else
+ 	HOGWEED_CFLAGS=$pkg_cv_HOGWEED_CFLAGS
+ 	HOGWEED_LIBS=$pkg_cv_HOGWEED_LIBS
+         { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+ $as_echo "yes" >&6; }
+ 	:
+-fi
+    if test "$cryptolib" = "nettle"; then
+   ENABLE_NETTLE_TRUE=
+   ENABLE_NETTLE_FALSE='#'

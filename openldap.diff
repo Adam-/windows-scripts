@@ -1,0 +1,114 @@
+diff --git a/include/ac/socket.h b/include/ac/socket.h
+index a96b0b3..450f369 100644
+--- a/include/ac/socket.h
++++ b/include/ac/socket.h
+@@ -62,7 +62,7 @@
+ 
+ #ifdef HAVE_WINSOCK2
+ #include <winsock2.h>
+-#include <ws2tcpip.h>
++//#include <ws2tcpip.h>
+ #elif HAVE_WINSOCK
+ #include <winsock.h>
+ #endif
+diff --git a/include/ac/string.h b/include/ac/string.h
+index 79c6a8a..1f1ab47 100644
+--- a/include/ac/string.h
++++ b/include/ac/string.h
+@@ -89,11 +89,6 @@ int (strncasecmp)();
+ 		else AC_MEMCPY( (d), (s), (n) ); \
+ 	} while(0)
+ 
+-#ifdef NEED_MEMCMP_REPLACEMENT
+-	int (lutil_memcmp)(const void *b1, const void *b2, size_t len);
+-#define memcmp lutil_memcmp
+-#endif
+-
+ void *(lutil_memrchr)(const void *b, int c, size_t n);
+ /* GNU extension (glibc >= 2.1.91), only declared when defined(_GNU_SOURCE) */
+ #if defined(HAVE_MEMRCHR) && defined(_GNU_SOURCE)
+diff --git a/libraries/liblber/nt_err.c b/libraries/liblber/nt_err.c
+index fa4e3a4..359a889 100644
+--- a/libraries/liblber/nt_err.c
++++ b/libraries/liblber/nt_err.c
+@@ -20,6 +20,7 @@
+ #elif defined(HAVE_WINSOCK)
+ #include <winsock.h>
+ #endif /* HAVE_WINSOCK(2) */
++#include "winerror.h"
+ 
+ #define LBER_RETSTR( x ) case x: return #x;
+ 
+diff --git a/libraries/liblutil/Makefile.in b/libraries/liblutil/Makefile.in
+index c8b1467..3e2d3ee 100644
+--- a/libraries/liblutil/Makefile.in
++++ b/libraries/liblutil/Makefile.in
+@@ -54,7 +54,7 @@ slapdmsg.bin: FORCE
+ 	@if [ ! -f $@ ]; then cp $(srcdir)/$@ .; fi
+ 
+ slapdmsg.res: slapdmsg.rc slapdmsg.bin
+-	windres $< -O coff -o $@
++	${WINDRES} $< -O coff -o $@
+ 
+ clean-local:
+ 	$(RM) *.res
+diff --git a/servers/slapd/Makefile.in b/servers/slapd/Makefile.in
+index cff2683..c73d813 100644
+--- a/servers/slapd/Makefile.in
++++ b/servers/slapd/Makefile.in
+@@ -205,9 +205,9 @@ slapd.def: libbackends.a liboverlays.a version.o
+ 	    esac; \
+ 	    objs="$$objs $$obj"; \
+ 	done; \
+-	echo dlltool --exclude-symbols main,ServiceMain@8 --export-all-symbols \
++	echo ${DLLTOOL} --exclude-symbols main,ServiceMain@8 --export-all-symbols \
+ 			--output-def $@.tmp $$objs; \
+-	dlltool --exclude-symbols main,ServiceMain@8 --export-all-symbols \
++	${DLLTOOL} --exclude-symbols main,ServiceMain@8 --export-all-symbols \
+ 			--output-def $@.tmp $$objs;
+ 	echo EXPORTS > $@
+ 	$(SED) -e 1,2d -e 's/ @ [0-9][0-9]*//' $@.tmp | sort >> $@
+@@ -237,7 +237,7 @@ symdummy.c: slapd.def
+ 	$(RM) $@.tmp
+ 
+ libslapd.a: symdummy.o
+-	dlltool --dllname slapd.exe --input-def slapd.def --output-lib $@
++	${DLLTOOL} --dllname slapd.exe --input-def slapd.def --output-lib $@
+ 
+ slapd.exp: libslapd.a
+ 	@echo $(LTLINK) -Wl,--base-file,slapd.base -o slapd \
+@@ -245,18 +245,18 @@ slapd.exp: libslapd.a
+ 	$(LTLINK) -Wl,--base-file,slapd.base -o slapd \
+ 		$(OBJS) symdummy.o version.o $(LIBS) $(WRAP_LIBS)
+ 	$(RM) slapd.exe
+-	@echo dlltool --dllname slapd.exe --input-def slapd.def \
++	@echo ${DLLTOOL} --dllname slapd.exe --input-def slapd.def \
+ 		--base-file slapd.base --output-exp $@; \
+-	dlltool --dllname slapd.exe --input-def slapd.def \
++	${DLLTOOL} --dllname slapd.exe --input-def slapd.def \
+ 		--base-file slapd.base --output-exp $@; \
+ 	echo $(LTLINK) -Wl,--base-file,slapd.base -o slapd $@ \
+ 		$(OBJS) symdummy.o version.o $(LIBS) $(WRAP_LIBS); \
+ 	$(LTLINK) -Wl,--base-file,slapd.base -o slapd $@ \
+ 		$(OBJS) symdummy.o version.o $(LIBS) $(WRAP_LIBS)
+ 	$(RM) slapd.exe
+-	@echo dlltool --dllname slapd.exe --input-def slapd.def \
++	@echo ${DLLTOOL} --dllname slapd.exe --input-def slapd.def \
+ 		--base-file slapd.base --output-exp $@; \
+-	dlltool --dllname slapd.exe --input-def slapd.def \
++	${DLLTOOL} --dllname slapd.exe --input-def slapd.def \
+ 		--base-file slapd.base --output-exp $@
+ 
+ slapi/libslapi.la: FORCE
+diff --git a/servers/slapd/overlays/Makefile.in b/servers/slapd/overlays/Makefile.in
+index cd0e57b..952b9c1 100644
+--- a/servers/slapd/overlays/Makefile.in
++++ b/servers/slapd/overlays/Makefile.in
+@@ -142,6 +142,7 @@ statover.o: statover.c $(srcdir)/../slap.h
+ 
+ $(LIBRARY): $(OBJS) version.lo
+ 	$(AR) rs $@ $(OBJS)
++	${RANLIB} $@
+ 
+ # Must fixup depends for non-libtool objects
+ depend-local: depend-common
