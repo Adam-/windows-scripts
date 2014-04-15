@@ -13,4 +13,7 @@
 
 ./sqlite.sh
 
-tar zcfh inspircd-libs.tar.gz gmp nettle gnutls fixgnutls.bat pcre openldap openssl fixopenssl.bat geoip sqlite
+./libiconv.sh
+./gettext.sh
+
+tar zcfh windows-libs.tar.gz gmp nettle gnutls fixgnutls.bat pcre openldap openssl fixopenssl.bat geoip sqlite libiconv gettext
