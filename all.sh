@@ -16,4 +16,6 @@
 ./libiconv.sh
 ./gettext.sh
 
+./strip.sh
+
 tar zcfh windows-libs.tar.gz gmp nettle gnutls fixgnutls.bat pcre openldap openssl fixopenssl.bat geoip sqlite libiconv gettext
