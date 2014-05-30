@@ -27,3 +27,10 @@ cp ssleay32.def $PREFIX/openssl/lib
 cp libeay32.def $PREFIX/openssl/lib
 
 popd
+
+pushd $PREFIX/openssl/lib
+
+$TOOLCHAINPREFIX-dlltool --def ssleay32.def --dllname ssleay32.dll --output-lib ssleay32.lib
+$TOOLCHAINPREFIX-dlltool --def libeay32.def --dllname libeay32.dll --output-lib libeay32.lib
+
+popd
