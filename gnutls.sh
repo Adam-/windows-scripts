@@ -13,7 +13,6 @@ rm -rf gnutls
 
 pushd gnutls-$GNUTLS_VERSION
 
-
 export CXXFLAGS="-I $PREFIX/gmp/include -I $PREFIX/nettle/include"
 export CFLAGS="-I $PREFIX/gmp/include -I $PREFIX/nettle/include"
 export LDFLAGS="-L$PREFIX/gmp/lib -L$PREFIX/nettle/lib -lgmp -lhogweed -lnettle"
@@ -22,6 +21,7 @@ patch -p1 < ../gnutls.diff
 make
 make install
 
-
 popd
+
+$TOOLCHAINPREFIX-dlltool --def gnutls/bin/libgnutls-28.def --dllname libgnutls-28.dll --output-lib gnutls/lib/libgnutls-28.lib
 
