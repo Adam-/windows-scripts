@@ -2,4 +2,4 @@
 
 . mingw.sh
 
-$STRIP `find $PREFIX -type f \( -name "*.dll" -o -name "*.exe" \)`
+$STRIP `find $PREFIX -type f -perm -u=w \( -name "*.dll" -o -name "*.exe" \)`
