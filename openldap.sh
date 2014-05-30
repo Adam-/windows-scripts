@@ -23,7 +23,14 @@ make install
 popd
 
 pushd openldap/lib
-ln -s libldap.dll.a libldap.lib
-ln -s liblber.dll.a liblber.lib
+
+echo EXPORTS > libldap.def
+$TOOLCHAINPREFIX-nm libldap.dll.a | grep ' T _' | sed 's/.* T _//' >> libldap.def
+$TOOLCHAINPREFIX-dlltool --def libldap.def --dllname libldap.dll --output-lib libldap.lib
+
+echo EXPORTS > liblber.def
+$TOOLCHAINPREFIX-nm liblber.dll.a | grep ' T _' | sed 's/.* T _//' >> liblber.def
+$TOOLCHAINPREFIX-dlltool --def liblber.def --dllname liblber.dll --output-lib liblber.lib
+
 popd
 
