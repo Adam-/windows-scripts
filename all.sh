@@ -18,4 +18,4 @@
 
 ./strip.sh
 
-tar zcfh windows-libs.tar.gz gmp nettle gnutls fixgnutls.bat pcre openldap openssl fixopenssl.bat geoip sqlite libiconv gettext
+tar zcfh windows-libs.tar.gz gmp nettle gnutls pcre openldap openssl geoip sqlite libiconv gettext
