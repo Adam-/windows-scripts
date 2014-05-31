@@ -19,3 +19,12 @@ make install
 
 popd
 
+pushd gettext/lib
+
+ln -s libintl.dll.a libintl.lib
+
+popd
+
+# gettext executables depend on libiconv
+cp libiconv/bin/libiconv-2.dll gettext/bin
+

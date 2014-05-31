@@ -19,3 +19,9 @@ make install
 
 popd
 
+pushd libiconv/lib
+
+ln -s libiconv.dll.a libiconv.lib
+
+popd
+
