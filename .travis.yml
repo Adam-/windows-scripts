@@ -1,0 +1,11 @@
+install: ./init.sh
+script: ./all.sh
+deploy:
+  provider: releases
+  api_key:
+    secure: gDVQ0HIJ6axPy0IYspyyHT/vzM0X9eJ8NJLzkLGawL5dmjeVUChhPmKQ2wjqSfKq8rYz8weic35Vqyafkbggxevo2yb6w+LrK121xsx+yr4RtU1qbvV6H7t862OJyDK6IroOMz42slcLP5cLyjc1wdnMeM3swdHSSjq7ihICB5w=
+  file: windows-libs.tar.gz
+  on:
+    repo: Adam-/windows-scripts
+    tags: true
+    all_branches: true
