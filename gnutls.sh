@@ -13,10 +13,10 @@ rm -rf gnutls
 
 pushd gnutls-$GNUTLS_VERSION
 
-export CXXFLAGS="-I $PREFIX/gmp/include -I $PREFIX/nettle/include"
-export CFLAGS="-I $PREFIX/gmp/include -I $PREFIX/nettle/include"
-export LDFLAGS="-L$PREFIX/gmp/lib -L$PREFIX/nettle/lib -lgmp -lhogweed -lnettle"
-patch -p1 < ../gnutls.diff
+export LDFLAGS="-L$PREFIX/gmp/lib"
+export PKG_CONFIG_PATH="$PREFIX/nettle/lib/pkgconfig"
+export GMP_CFLAGS="-I$PREFIX/gmp/include"
+export GMP_LIBS="-lgmp"
 ./configure --prefix=$PREFIX/gnutls --host=$TOOLCHAINPREFIX --enable-shared --disable-static
 make
 make install
