@@ -1,0 +1,23 @@
+diff --git a/mysys/my_wincond.c b/mysys/my_wincond.c
+index 1e58125..977cd1d 100644
+--- a/mysys/my_wincond.c
++++ b/mysys/my_wincond.c
+@@ -152,14 +152,16 @@ int pthread_dummy(int ret)
+ 
+ struct tm *localtime_r(const time_t *timep,struct tm *tmp)
+ {
+-  localtime_s(tmp, timep);
++  struct tm *t = localtime(timep);
++  memcpy(tmp, t, sizeof(struct tm));
+   return tmp;
+ }
+ 
+ 
+ struct tm *gmtime_r(const time_t *clock, struct tm *res)
+ {
+-  gmtime_s(res, clock);
++  struct tm *t = gmtime(clock);
++  memcpy(res, t, sizeof(struct tm));
+   return res;
+ }
+ #endif /* _WIN32 */

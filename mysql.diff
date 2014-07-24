@@ -1,0 +1,225 @@
+diff --git a/extra/CMakeLists.txt b/extra/CMakeLists.txt
+index ac28c62..2d907c4 100644
+--- a/extra/CMakeLists.txt
++++ b/extra/CMakeLists.txt
+@@ -20,6 +20,12 @@ ${ZLIB_INCLUDE_DIR})
+ # Default install component for the files here
+ SET(MYSQL_INSTALL_COMPONENT Development)
+ 
++# when crosscompiling import the executable targets from a file
++IF(CMAKE_CROSSCOMPILING)
++  SET(IMPORT_EXECUTABLES "IMPORTFILE-NOTFOUND" CACHE FILEPATH "Point it to the export file from a native build")
++  INCLUDE(${IMPORT_EXECUTABLES})
++ENDIF(CMAKE_CROSSCOMPILING)
++
+ IF(NOT CMAKE_CROSSCOMPILING)
+  ADD_EXECUTABLE(comp_err comp_err.c)
+  TARGET_LINK_LIBRARIES(comp_err mysys mysys_ssl)
+@@ -37,6 +43,7 @@ ADD_CUSTOM_COMMAND(OUTPUT ${PROJECT_BINARY_DIR}/include/mysqld_error.h
+                     --state_file=${PROJECT_BINARY_DIR}/include/sql_state.h
+                     --in_file=${PROJECT_SOURCE_DIR}/sql/share/errmsg-utf8.txt
+                    DEPENDS ${PROJECT_SOURCE_DIR}/sql/share/errmsg-utf8.txt
++			DEPENDS comp_err
+                    ${CMAKE_CURRENT_SOURCE_DIR}/comp_err.c)
+ 
+ ADD_CUSTOM_TARGET(GenError
+@@ -75,3 +82,10 @@ IF(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
+   MY_SEARCH_LIBS(inet_aton  "nsl;socket;resolv" SOLARIS_NSL)
+   TARGET_LINK_LIBRARIES(resolveip ${SOLARIS_NSL})
+ ENDIF()
++
++
++# export the generator target to a file, so it can be imported (see above) by another build
++# the IF() is not necessary, but makes the intention clearer
++IF(NOT CMAKE_CROSSCOMPILING) 
++  EXPORT(TARGETS comp_err FILE ${CMAKE_BINARY_DIR}/ImportExecutables.cmake )
++ENDIF(NOT CMAKE_CROSSCOMPILING) 
+diff --git a/extra/yassl/src/yassl_int.cpp b/extra/yassl/src/yassl_int.cpp
+index f39865f..7e69bd1 100644
+--- a/extra/yassl/src/yassl_int.cpp
++++ b/extra/yassl/src/yassl_int.cpp
+@@ -20,7 +20,7 @@
+ // First include (the generated) my_config.h, to get correct platform defines.
+ #include "my_config.h"
+ #ifdef _WIN32
+-#include<Windows.h>
++#include<windows.h>
+ #else
+ #include <pthread.h>
+ #endif
+diff --git a/include/m_string.h b/include/m_string.h
+index af9bdcc..a332e5a 100644
+--- a/include/m_string.h
++++ b/include/m_string.h
+@@ -89,14 +89,7 @@ extern	char *strxnmov(char *dst, size_t len, const char *src, ...);
+ */
+ static inline char *my_stpcpy(char *dst, const char *src)
+ {
+-#if defined(HAVE_BUILTIN_STPCPY)
+-  return __builtin_stpcpy(dst, src);
+-#elif defined(HAVE_STPCPY)
+-  return stpcpy(dst, src);
+-#else
+-  /* Fallback to implementation supporting overlap. */
+-  return my_stpmov(dst, src);
+-#endif
++  return strcpy(dst, src);
+ }
+ 
+ /**
+diff --git a/include/my_global.h b/include/my_global.h
+index c2b651d..726297d 100644
+--- a/include/my_global.h
++++ b/include/my_global.h
+@@ -16,6 +16,7 @@
+ 
+ #ifndef MY_GLOBAL_INCLUDED
+ #define MY_GLOBAL_INCLUDED
++#define _TIMESPEC_DEFINED
+ 
+ /* This is the include file that should be included 'first' in every C file. */
+ 
+diff --git a/include/mysql/psi/mysql_socket.h b/include/mysql/psi/mysql_socket.h
+index 41a7cb4..5f6d91d 100644
+--- a/include/mysql/psi/mysql_socket.h
++++ b/include/mysql/psi/mysql_socket.h
+@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ #ifdef _WIN32
+   #include <ws2def.h>
+   #include <winsock2.h>
+-  #include <MSWSock.h>
++  #include <mswsock.h>
+   #define SOCKBUF_T char
+ #else
+   #include <netinet/in.h>
+diff --git a/libmysql/CMakeLists.txt b/libmysql/CMakeLists.txt
+index bae7939..20887d8 100644
+--- a/libmysql/CMakeLists.txt
++++ b/libmysql/CMakeLists.txt
+@@ -355,16 +355,3 @@ ENDFOREACH()
+ #
+ CONFIGURE_FILE(api_test.c.in ${CMAKE_CURRENT_BINARY_DIR}/api_test.c)
+ 
+-#
+-# Note: Compiling this test application will fail if not all symbols
+-# from @CLIENT_API_FUNCTIONS@ are declared by <mysql.h>. It will fail
+-# to run if not all of these symbols are exported by the library.
+-#
+-ADD_EXECUTABLE(libmysql_api_test ${CMAKE_CURRENT_BINARY_DIR}/api_test.c)
+-SET_TARGET_PROPERTIES(libmysql_api_test PROPERTIES LINKER_LANGUAGE CXX)
+-
+-IF(DISABLE_SHARED)
+-  TARGET_LINK_LIBRARIES(libmysql_api_test ${LIBS})
+-ELSE()
+-  TARGET_LINK_LIBRARIES(libmysql_api_test libmysql)
+-ENDIF()
+diff --git a/libmysql/authentication_win/CMakeLists.txt b/libmysql/authentication_win/CMakeLists.txt
+index 8cf8862..e8654eb 100644
+--- a/libmysql/authentication_win/CMakeLists.txt
++++ b/libmysql/authentication_win/CMakeLists.txt
+@@ -26,7 +26,7 @@ SET(HEADERS common.h handshake.h)
+ SET(PLUGIN_SOURCES plugin_client.cc handshake_client.cc log_client.cc common.cc handshake.cc)
+ 
+ ADD_CONVENIENCE_LIBRARY(auth_win_client ${PLUGIN_SOURCES} ${HEADERS})
+-TARGET_LINK_LIBRARIES(auth_win_client Secur32)
++TARGET_LINK_LIBRARIES(auth_win_client secur32)
+ 
+ # In IDE, group headers in a separate folder.
+ 
+diff --git a/libmysql/authentication_win/handshake.h b/libmysql/authentication_win/handshake.h
+index eaa6120..f246e57 100644
+--- a/libmysql/authentication_win/handshake.h
++++ b/libmysql/authentication_win/handshake.h
+@@ -100,7 +100,7 @@ public:
+   Handshake(const char *ssp, side_t side);
+   virtual ~Handshake();
+ 
+-  int Handshake::packet_processing_loop();
++  int packet_processing_loop();
+ 
+   bool virtual is_complete() const
+   {
+diff --git a/mysys/my_getsystime.c b/mysys/my_getsystime.c
+index 03885ce..e97a5c6 100644
+--- a/mysys/my_getsystime.c
++++ b/mysys/my_getsystime.c
+@@ -39,11 +39,7 @@
+ 
+ ulonglong my_getsystime()
+ {
+-#ifdef HAVE_CLOCK_GETTIME
+-  struct timespec tp;
+-  clock_gettime(CLOCK_REALTIME, &tp);
+-  return (ulonglong)tp.tv_sec*10000000+(ulonglong)tp.tv_nsec/100;
+-#elif defined(_WIN32)
++#if defined(_WIN32)
+   LARGE_INTEGER t_cnt;
+   if (query_performance_frequency)
+   {
+@@ -54,10 +50,9 @@ ulonglong my_getsystime()
+   }
+   return 0;
+ #else
+-  /* TODO: check for other possibilities for hi-res timestamping */
+-  struct timeval tv;
+-  gettimeofday(&tv,NULL);
+-  return (ulonglong)tv.tv_sec*10000000+(ulonglong)tv.tv_usec*10;
++  struct timespec tp;
++  clock_gettime(CLOCK_REALTIME, &tp);
++  return (ulonglong)tp.tv_sec*10000000+(ulonglong)tp.tv_nsec/100;
+ #endif
+ }
+ 
+diff --git a/mysys/my_rdtsc.c b/mysys/my_rdtsc.c
+index 0e5859b..d68cf7e 100644
+--- a/mysys/my_rdtsc.c
++++ b/mysys/my_rdtsc.c
+@@ -213,27 +213,7 @@ ulonglong my_timer_cycles(void)
+ 
+ ulonglong my_timer_nanoseconds(void)
+ {
+-#if defined(HAVE_SYS_TIMES_H) && defined(HAVE_GETHRTIME)
+-  /* SunOS 5.10+, Solaris, HP-UX: hrtime_t gethrtime(void) */
+-  return (ulonglong) gethrtime();
+-#elif defined(HAVE_CLOCK_GETTIME) && defined(CLOCK_REALTIME)
+-  {
+-    struct timespec tp;
+-    clock_gettime(CLOCK_REALTIME, &tp);
+-    return (ulonglong) tp.tv_sec * 1000000000 + (ulonglong) tp.tv_nsec;
+-  }
+-#elif defined(__APPLE__) && defined(__MACH__)
+-  {
+-    ulonglong tm;
+-    static mach_timebase_info_data_t timebase_info= {0,0};
+-    if (timebase_info.denom == 0)
+-      (void) mach_timebase_info(&timebase_info);
+-    tm= mach_absolute_time();
+-    return (tm * timebase_info.numer) / timebase_info.denom;
+-  }
+-#else
+-  return 0;
+-#endif
++	return 0;
+ }
+ 
+ /*
+diff --git a/mysys/stacktrace.c b/mysys/stacktrace.c
+index bdbb79e..5195ace 100644
+--- a/mysys/stacktrace.c
++++ b/mysys/stacktrace.c
+@@ -526,6 +526,7 @@ void my_write_core(int unused)
+ 
+ void my_safe_puts_stderr(const char *val, int len)
+ {
++#if 0
+   __try
+   {
+     my_write_stderr(val, len);
+@@ -535,6 +536,7 @@ void my_safe_puts_stderr(const char *val, int len)
+   {
+     my_safe_printf_stderr("%s", "is an invalid string pointer\n");
+   }
++#endif
+ }
+ #endif /* _WIN32 */
+ 
