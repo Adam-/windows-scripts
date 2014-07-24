@@ -17,9 +17,6 @@ cd mysql-connector-c-$MYSQL_VERSION-src
 
 cp ../../Toolchan-mingw.cmake .
 patch -p1 < ../../mysql.diff
-patch -p1 < ../../mysql2.diff
-patch -p1 < ../../mysql3.diff
-patch -p1 < ../../mysql4.diff
 
 mkdir build
 cd build
@@ -38,9 +35,6 @@ cd mysql-connector-c-$MYSQL_VERSION-src
 
 cp ../../Toolchan-mingw.cmake .
 patch -p1 < ../../mysql.diff
-patch -p1 < ../../mysql2.diff
-patch -p1 < ../../mysql3.diff
-patch -p1 < ../../mysql4.diff
 
 mkdir build
 cd build
