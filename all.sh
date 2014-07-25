@@ -16,8 +16,8 @@
 ./libiconv.sh
 ./gettext.sh
 
-./mysql.sh
+#./mysql.sh
 
 ./strip.sh
 
-tar zcfh windows-libs.tar.gz gmp nettle gnutls pcre openldap openssl geoip sqlite libiconv gettext mysql
+tar zcfh windows-libs.tar.gz gmp nettle gnutls pcre openldap openssl geoip sqlite libiconv gettext
