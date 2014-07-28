@@ -23,5 +23,3 @@ make install
 
 popd
 
-$TOOLCHAINPREFIX-dlltool --def gnutls/bin/libgnutls-28.def --dllname libgnutls-28.dll --output-lib gnutls/lib/libgnutls-28.lib
-
