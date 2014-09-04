@@ -23,10 +23,16 @@ pushd pcre/include
 ln -s pcreposix.h regex.h
 popd
 
-pushd pcre/lib
-ln -s libpcreposix.dll.a regex.lib
-ln -s libpcre.dll.a libpcre.lib
+pushd pcre/bin
+ln -s libpcre-1.dll libpcre.dll
+popd
 
+pushd pcre/lib
 # for libtool to find in OpenLDAP
 ln -s libpcreposix.dll.a libregex.a
+
+echo EXPORTS > libpcre.def
+$TOOLCHAINPREFIX-nm libpcre.dll.a | grep ' T _' | sed 's/.* T _//' >> libpcre.def
+echo pcre_free >> libpcre.def
+
 popd
