@@ -20,6 +20,10 @@ make install
 popd
 
 pushd sqlite/lib
-ln -s libsqlite3.dll.a sqlite3.lib
+
+echo LIBRARY libsqlite3-0 > sqlite3.def
+echo EXPORTS >> sqlite3.def
+$TOOLCHAINPREFIX-nm libsqlite3.dll.a | grep ' T _' | sed 's/.* T _//' >> sqlite3.def
+
 popd
 
