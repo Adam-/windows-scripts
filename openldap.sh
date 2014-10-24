@@ -1,5 +1,5 @@
 
-OPENLDAP_VERSION="2.4.39"
+OPENLDAP_VERSION="2.4.40"
 
 . mingw.sh
 

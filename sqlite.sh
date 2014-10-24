@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SQLITE_VERSION="3080403"
+SQLITE_VERSION="3080700"
 
 . mingw.sh
 

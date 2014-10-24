@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GEOIP_VERSION="1.6.0"
+GEOIP_VERSION="1.6.2"
 
 . mingw.sh
 

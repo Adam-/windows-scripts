@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GETTEXT_VERSION="0.18.3.2"
+GETTEXT_VERSION="0.19.3"
 
 . mingw.sh
 
