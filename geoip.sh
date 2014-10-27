@@ -21,6 +21,10 @@ make install
 
 popd
 
+pushd geoip/bin
+ln -s libGeoIP-1.dll GeoIP.dll
+popd
+
 pushd geoip/lib
 
 echo EXPORTS > GeoIP.def
