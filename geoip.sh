@@ -22,6 +22,9 @@ make install
 popd
 
 pushd geoip/lib
-ln -s libGeoIP.dll.a GeoIP.lib
+
+echo EXPORTS > GeoIP.def
+$TOOLCHAINPREFIX-nm libGeoIP.dll.a | grep ' T _' | sed 's/.* T _//' >> GeoIP.def
+
 popd
 
