@@ -24,8 +24,8 @@ popd
 
 pushd openldap/lib
 
-echo EXPORTS > libldap.def
-$TOOLCHAINPREFIX-nm libldap.dll.a | grep ' T _' | sed 's/.* T _//' >> libldap.def
+echo EXPORTS > libldap_r.def
+$TOOLCHAINPREFIX-nm libldap_r.dll.a | grep ' T _' | sed 's/.* T _//' >> libldap_r.def
 
 echo EXPORTS > liblber.def
 $TOOLCHAINPREFIX-nm liblber.dll.a | grep ' T _' | sed 's/.* T _//' >> liblber.def
