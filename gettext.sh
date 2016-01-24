@@ -13,7 +13,10 @@ rm -rf gettext
 
 pushd gettext-$GETTEXT_VERSION
 
-CXXFLAGS="-O2" CFLAGS="-O2 -I $PREFIX/libiconv/include" LDFLAGS="-L$PREFIX/libiconv/lib -liconv" ./configure --prefix=$PREFIX/gettext --host=$TOOLCHAINPREFIX --enable-shared --disable-static --enable-relocatable --enable-threads=win32
+CXXFLAGS="-O2 -I $PREFIX/libiconv/include" \
+CFLAGS="-O2 -I $PREFIX/libiconv/include" \
+LDFLAGS="-L$PREFIX/libiconv/lib -liconv" \
+./configure --prefix=$PREFIX/gettext --host=$TOOLCHAINPREFIX --enable-shared --disable-static --enable-relocatable --enable-threads=win32
 make
 make install
 

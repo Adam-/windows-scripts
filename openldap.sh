@@ -12,10 +12,10 @@ rm -rf openldap
 
 pushd openldap-$OPENLDAP_VERSION
 
-export CFLAGS="-I$TOOLCHAINPREFIX/include/ -I$PREFIX/pcre/include -I$PREFIX/openssl/include"
-export LDFLAGS="-L$PREFIX/pcre/lib -L$PREFIX/openssl/lib"
-export LIBS="-lregex"
 patch -p1 < ../openldap.diff
+WINEPREFIX=/dev/null \
+CFLAGS="-I$TOOLCHAINPREFIX/include/ -I$PREFIX/pcre/include -I$PREFIX/openssl/include" \
+LDFLAGS="-L$PREFIX/pcre/lib -L$PREFIX/openssl/lib" \
 ./configure --target=mingw32 --host=$TOOLCHAINPREFIX --prefix=$PREFIX/openldap --disable-bdb --disable-hdb --disable-mdb --enable-shared
 make
 make install

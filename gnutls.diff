@@ -1,0 +1,56 @@
+diff --git a/gl/asprintf.c b/gl/asprintf.c
+index ff0fba0..3cbf15a 100644
+--- a/gl/asprintf.c
++++ b/gl/asprintf.c
+@@ -26,6 +26,7 @@
+ 
+ #include <stdarg.h>
+ 
++#if 0
+ int
+ asprintf (char **resultp, const char *format, ...)
+ {
+@@ -37,3 +38,4 @@ asprintf (char **resultp, const char *format, ...)
+   va_end (args);
+   return result;
+ }
++#endif
+diff --git a/lib/Makefile.in b/lib/Makefile.in
+index b094512..276ba51 100644
+--- a/lib/Makefile.in
++++ b/lib/Makefile.in
+@@ -112,7 +112,7 @@ host_triplet = @host@
+ @ENABLE_OPENPGP_TRUE@am__append_2 = opencdk openpgp
+ @ENABLE_OPENPGP_TRUE@am__append_3 = -I$(srcdir)/opencdk
+ @ENABLE_MINITASN1_TRUE@am__append_4 = -I$(srcdir)/minitasn1
+-@WINDOWS_TRUE@am__append_5 = system-keys-win.c
++@WINDOWS_TRUE@am__append_5 = system-keys-dummy.c
+ @WINDOWS_FALSE@am__append_6 = system-keys-dummy.c
+ @ENABLE_SELF_CHECKS_TRUE@am__append_7 = crypto-selftests.c crypto-selftests-pk.c
+ @ENABLE_PKCS11_TRUE@am__append_8 = pkcs11.c pkcs11x.c pkcs11_privkey.c pkcs11_write.c pkcs11_secret.c \
+@@ -337,14 +337,14 @@ am__libgnutls_la_SOURCES_DIST = abstract_int.h debug.h \
+ 	gnutls_pcert.c gnutls_pubkey.c locks.c gnutls_dtls.c \
+ 	system_override.c crypto-backend.c verify-tofu.c pin.c tpm.c \
+ 	fips.c safe-memfuncs.c inet_pton.c atfork.c atfork.h \
+-	system-keys.h urls.c urls.h auto-verify.c system-keys-win.c \
++	system-keys.h urls.c urls.h auto-verify.c system-keys-dummy.c \
+ 	system-keys-dummy.c crypto-selftests.c crypto-selftests-pk.c \
+ 	pkcs11.c pkcs11x.c pkcs11_privkey.c pkcs11_write.c \
+ 	pkcs11_secret.c pkcs11_int.c gnutls_srp.c gnutls_psk.c \
+ 	gnutls.asn pkix.asn libgnutls.map
+ am__objects_1 =
+ am__objects_2 = $(am__objects_1)
+-@WINDOWS_TRUE@am__objects_3 = system-keys-win.lo
++@WINDOWS_TRUE@am__objects_3 = system-keys-dummy.lo
+ @WINDOWS_FALSE@am__objects_4 = system-keys-dummy.lo
+ @ENABLE_SELF_CHECKS_TRUE@am__objects_5 = crypto-selftests.lo \
+ @ENABLE_SELF_CHECKS_TRUE@	crypto-selftests-pk.lo
+@@ -1726,7 +1726,7 @@ distclean-compile:
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/random.Plo@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/safe-memfuncs.Plo@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/system-keys-dummy.Plo@am__quote@
+-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/system-keys-win.Plo@am__quote@
++@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/system-keys-dummy.Plo@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/system.Plo@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/system_override.Plo@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tpm.Plo@am__quote@
