@@ -16,9 +16,8 @@ patch -p1 < ../gnutls.diff
 LDFLAGS="-L$PREFIX/gmp/lib" \
 GMP_CFLAGS="-I$PREFIX/gmp/include" \
 GMP_LIBS="-lgmp" \
-CFLAGS="-I$PREFIX/libtasn1/include" \
-PKG_CONFIG_PATH="$PREFIX/nettle/lib/pkgconfig:$PREFIX/libtasn1/lib/pkgconfig:$PREFIX/p11-kit/lib/pkgconfig" \
-./configure --prefix=$PREFIX/gnutls --host=$TOOLCHAINPREFIX --enable-shared --disable-static --disable-cxx
+PKG_CONFIG_PATH="$PREFIX/nettle/lib/pkgconfig:$PREFIX/p11-kit/lib/pkgconfig" \
+./configure --prefix=$PREFIX/gnutls --host=$TOOLCHAINPREFIX --enable-shared --disable-static --disable-cxx --with-included-libtasn1
 make
 make install
 

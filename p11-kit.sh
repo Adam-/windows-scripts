@@ -13,8 +13,7 @@ tar zxf p11-kit-$P11KIT_VERSION.tar.gz
 pushd p11-kit-$P11KIT_VERSION
 
 LDFLAGS=-lws2_32 \
-PKG_CONFIG_PATH=$PREFIX/libffi/lib/pkgconfig/:$PREFIX/libtasn1/lib/pkgconfig \
-./configure --host=$TOOLCHAINPREFIX --prefix=$PREFIX/p11-kit --enable-shared --disable-static
+./configure --host=$TOOLCHAINPREFIX --prefix=$PREFIX/p11-kit --enable-shared --disable-static --without-libffi --without-libtasn1
 make
 make install
 

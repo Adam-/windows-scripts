@@ -4,8 +4,6 @@
 
 ./gmp.sh
 ./nettle.sh
-./libffi.sh
-./libtasn1.sh
 ./p11-kit.sh
 ./gnutls.sh
 
@@ -23,4 +21,4 @@
 
 ./strip.sh
 
-tar zcfh windows-libs.tar.gz gmp nettle libffi libtasn1 p11-kit gnutls pcre openldap openssl geoip sqlite libiconv gettext *.bat
+tar zcfh windows-libs.tar.gz gmp nettle p11-kit gnutls pcre openldap openssl geoip sqlite libiconv gettext *.bat
