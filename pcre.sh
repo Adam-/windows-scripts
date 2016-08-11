@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PCRE_VERSION="8.38"
+PCRE_VERSION="8.39"
 
 . mingw.sh
 
