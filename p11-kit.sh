@@ -5,7 +5,7 @@ P11KIT_VERSION="0.23.2"
 . mingw.sh
 
 if [ ! -f p11-kit-$P11KIT_VERSION.tar.gz ] ; then
-	wget http://p11-glue.freedesktop.org/releases/p11-kit-$P11KIT_VERSION.tar.gz
+	wget --no-check-certificate http://p11-glue.freedesktop.org/releases/p11-kit-$P11KIT_VERSION.tar.gz
 fi
 rm -rf p11-kit p11-kit-$P11KIT_VERSION
 tar zxf p11-kit-$P11KIT_VERSION.tar.gz
