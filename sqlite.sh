@@ -1,11 +1,11 @@
 #!/bin/bash
 
-SQLITE_VERSION="3080700"
+SQLITE_VERSION="3160200"
 
 . mingw.sh
 
 if [ ! -f sqlite-autoconf-$SQLITE_VERSION.tar.gz ] ; then
-	wget http://sqlite.org/2014/sqlite-autoconf-$SQLITE_VERSION.tar.gz
+	wget https://sqlite.org/2017/sqlite-autoconf-$SQLITE_VERSION.tar.gz
 fi
 rm -rf sqlite-autoconf-$SQLITE_VERSION
 tar zxf sqlite-autoconf-$SQLITE_VERSION.tar.gz
