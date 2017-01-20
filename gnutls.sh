@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GNUTLS_VERSION="3.4.14"
+GNUTLS_VERSION="3.4.17"
 
 . mingw.sh
 
