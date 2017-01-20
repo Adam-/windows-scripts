@@ -1,11 +1,11 @@
 #!/bin/bash
 
-OPENSSL_VERSION="1.0.1t"
+OPENSSL_VERSION="1.0.2j"
 
 . vars.sh
 
 if [ ! -f openssl-$OPENSSL_VERSION.tar.gz ] ; then
-	wget http://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz
+	wget https://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz
 fi
 rm -rf openssl-$OPENSSL_VERSION
 tar zxf openssl-$OPENSSL_VERSION.tar.gz
