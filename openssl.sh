@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OPENSSL_VERSION="1.0.2j"
+OPENSSL_VERSION="1.0.2k"
 
 . vars.sh
 
