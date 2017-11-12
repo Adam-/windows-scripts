@@ -1,5 +1,5 @@
 diff --git a/gl/asprintf.c b/gl/asprintf.c
-index ff0fba0..3cbf15a 100644
+index ee2b58f..e43b1d0 100644
 --- a/gl/asprintf.c
 +++ b/gl/asprintf.c
 @@ -26,6 +26,7 @@
@@ -15,42 +15,73 @@ index ff0fba0..3cbf15a 100644
    return result;
  }
 +#endif
+diff --git a/lib/Makefile.am b/lib/Makefile.am
+index 9921979..b65e68a 100644
+--- a/lib/Makefile.am
++++ b/lib/Makefile.am
+@@ -87,7 +87,7 @@ COBJECTS = range.c record.c compress.c debug.c cipher.c			\
+ 	cert-session.c handshake-checks.c dtls-sw.c dh-primes.c openpgp_compat.c
+ 
+ if WINDOWS
+-COBJECTS += system/keys-win.c
++COBJECTS += system/keys-dummy.c
+ else
+ COBJECTS += system/keys-dummy.c
+ endif
 diff --git a/lib/Makefile.in b/lib/Makefile.in
-index b094512..276ba51 100644
+index 514a10e..2efe4ca 100644
 --- a/lib/Makefile.in
 +++ b/lib/Makefile.in
-@@ -112,7 +112,7 @@ host_triplet = @host@
- @ENABLE_OPENPGP_TRUE@am__append_2 = opencdk openpgp
- @ENABLE_OPENPGP_TRUE@am__append_3 = -I$(srcdir)/opencdk
- @ENABLE_MINITASN1_TRUE@am__append_4 = -I$(srcdir)/minitasn1
--@WINDOWS_TRUE@am__append_5 = system-keys-win.c
-+@WINDOWS_TRUE@am__append_5 = system-keys-dummy.c
- @WINDOWS_FALSE@am__append_6 = system-keys-dummy.c
- @ENABLE_SELF_CHECKS_TRUE@am__append_7 = crypto-selftests.c crypto-selftests-pk.c
- @ENABLE_PKCS11_TRUE@am__append_8 = pkcs11.c pkcs11x.c pkcs11_privkey.c pkcs11_write.c pkcs11_secret.c \
-@@ -337,14 +337,14 @@ am__libgnutls_la_SOURCES_DIST = abstract_int.h debug.h \
- 	gnutls_pcert.c gnutls_pubkey.c locks.c gnutls_dtls.c \
- 	system_override.c crypto-backend.c verify-tofu.c pin.c tpm.c \
- 	fips.c safe-memfuncs.c inet_pton.c atfork.c atfork.h \
--	system-keys.h urls.c urls.h auto-verify.c system-keys-win.c \
-+	system-keys.h urls.c urls.h auto-verify.c system-keys-dummy.c \
- 	system-keys-dummy.c crypto-selftests.c crypto-selftests-pk.c \
- 	pkcs11.c pkcs11x.c pkcs11_privkey.c pkcs11_write.c \
- 	pkcs11_secret.c pkcs11_int.c gnutls_srp.c gnutls_psk.c \
- 	gnutls.asn pkix.asn libgnutls.map
+@@ -114,7 +114,7 @@ host_triplet = @host@
+ @HAVE_LIBUNISTRING_FALSE@am__append_4 = unistring
+ @HAVE_LIBUNISTRING_FALSE@am__append_5 = -I$(srcdir)/unistring/ -I$(builddir)/unistring/
+ @ENABLE_MINITASN1_TRUE@am__append_6 = -I$(srcdir)/minitasn1
+-@WINDOWS_TRUE@am__append_7 = system/keys-win.c
++@WINDOWS_TRUE@am__append_7 = system/keys-dummy.c
+ @WINDOWS_FALSE@am__append_8 = system/keys-dummy.c
+ @ENABLE_SELF_CHECKS_TRUE@am__append_9 = crypto-selftests.c crypto-selftests-pk.c
+ @ENABLE_PKCS11_TRUE@am__append_10 = pkcs11.c pkcs11x.c pkcs11_privkey.c pkcs11_write.c pkcs11_secret.c \
+@@ -359,7 +359,7 @@ am__libgnutls_la_SOURCES_DIST = abstract_int.h debug.h compress.h \
  am__objects_1 =
  am__objects_2 = $(am__objects_1)
--@WINDOWS_TRUE@am__objects_3 = system-keys-win.lo
-+@WINDOWS_TRUE@am__objects_3 = system-keys-dummy.lo
- @WINDOWS_FALSE@am__objects_4 = system-keys-dummy.lo
+ am__dirstamp = $(am__leading_dot)dirstamp
+-@WINDOWS_TRUE@am__objects_3 = system/keys-win.lo
++@WINDOWS_TRUE@am__objects_3 = system/keys-dummy.lo
+ @WINDOWS_FALSE@am__objects_4 = system/keys-dummy.lo
  @ENABLE_SELF_CHECKS_TRUE@am__objects_5 = crypto-selftests.lo \
  @ENABLE_SELF_CHECKS_TRUE@	crypto-selftests-pk.lo
-@@ -1726,7 +1726,7 @@ distclean-compile:
- @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/random.Plo@am__quote@
- @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/safe-memfuncs.Plo@am__quote@
- @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/system-keys-dummy.Plo@am__quote@
--@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/system-keys-win.Plo@am__quote@
-+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/system-keys-dummy.Plo@am__quote@
- @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/system.Plo@am__quote@
- @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/system_override.Plo@am__quote@
- @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tpm.Plo@am__quote@
+diff --git a/tests/Makefile.am b/tests/Makefile.am
+index a0bf11f..fa23481 100644
+--- a/tests/Makefile.am
++++ b/tests/Makefile.am
+@@ -19,7 +19,7 @@
+ # along with this file; if not, write to the Free Software Foundation,
+ # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ 
+-SUBDIRS = . cert-tests ocsp-tests key-tests slow dtls windows
++SUBDIRS = . cert-tests ocsp-tests key-tests slow dtls 
+ 
+ if WANT_TEST_SUITE
+ SUBDIRS += suite
+diff --git a/tests/Makefile.in b/tests/Makefile.in
+index a116cfb..d5989d9 100644
+--- a/tests/Makefile.in
++++ b/tests/Makefile.in
+@@ -2322,7 +2322,7 @@ TEST_LOGS = $(am__test_logs2:.test.log=.log)
+ TEST_LOG_DRIVER = $(SHELL) $(top_srcdir)/build-aux/test-driver
+ TEST_LOG_COMPILE = $(TEST_LOG_COMPILER) $(AM_TEST_LOG_FLAGS) \
+ 	$(TEST_LOG_FLAGS)
+-DIST_SUBDIRS = . cert-tests ocsp-tests key-tests slow dtls windows \
++DIST_SUBDIRS = . cert-tests ocsp-tests key-tests slow dtls  \
+ 	suite
+ am__DIST_COMMON = $(srcdir)/Makefile.in \
+ 	$(top_srcdir)/build-aux/depcomp \
+@@ -3371,7 +3371,7 @@ unistring_LTLIBOBJS = @unistring_LTLIBOBJS@
+ unistringtests_LIBOBJS = @unistringtests_LIBOBJS@
+ unistringtests_LTLIBOBJS = @unistringtests_LTLIBOBJS@
+ unistringtests_WITNESS = @unistringtests_WITNESS@
+-SUBDIRS = . cert-tests ocsp-tests key-tests slow dtls windows \
++SUBDIRS = . cert-tests ocsp-tests key-tests slow dtls  \
+ 	$(am__append_1)
+ EXTRA_DIST = suppressions.valgrind eagain-common.h cert-common.h test-chains.h \
+ 	certs/ca-cert-ecc.pem  certs/cert-ecc256.pem  certs/cert-ecc521.pem \
