@@ -2,7 +2,7 @@
 
 set -e
 
-OPENSSL_VERSION="1.0.2m"
+OPENSSL_VERSION="1.0.2r"
 
 . vars.sh
 
