@@ -2,7 +2,7 @@
 
 set -e
 
-GEOIP_VERSION="1.6.9"
+GEOIP_VERSION="1.6.12"
 
 . mingw.sh
 

@@ -1,8 +1,8 @@
 diff --git a/configure b/configure
-index a37296c..6c586bd 100755
+index 3d5e3b6..abc210f 100755
 --- a/configure
 +++ b/configure
-@@ -12727,7 +12727,6 @@ else
+@@ -13369,7 +13369,6 @@ else
  esac
  
  
@@ -10,7 +10,7 @@ index a37296c..6c586bd 100755
  
  fi
  
-@@ -12794,7 +12793,6 @@ else
+@@ -13436,7 +13435,6 @@ else
  esac
  
  
@@ -19,57 +19,36 @@ index a37296c..6c586bd 100755
  fi
  
 diff --git a/libGeoIP/GeoIP.h b/libGeoIP/GeoIP.h
-index 8bd9acf..c4a4a03 100644
+index 2852595..c0986a3 100644
 --- a/libGeoIP/GeoIP.h
 +++ b/libGeoIP/GeoIP.h
-@@ -173,24 +173,24 @@ typedef enum {
- #endif
+@@ -154,18 +154,8 @@ typedef enum {
+     GEOIP_CORPORATE_SPEED = 3,
+ } GeoIPNetspeedValues;
+ 
+-#if defined(_WIN32) && !defined(__MINGW32__)
+-#ifdef GEOIP_EXPORTS
+-#define GEOIP_API __declspec(dllexport)
+-#define GEOIP_DATA __declspec(dllexport)
+-#else
+-#define GEOIP_DATA __declspec(dllimport)
+-#define GEOIP_API
+-#endif /* GEOIP_EXPORTS */
+-#else
+-#define GEOIP_API
+ #define GEOIP_DATA
+-#endif
++#define GEOIP_API
  
  extern char **GeoIPDBFileName;
--extern GEOIP_DATA const char * GeoIPDBDescription[NUM_DB_TYPES];
--extern GEOIP_DATA const char *GeoIPCountryDBFileName;
--extern GEOIP_DATA const char *GeoIPRegionDBFileName;
--extern GEOIP_DATA const char *GeoIPCityDBFileName;
--extern GEOIP_DATA const char *GeoIPOrgDBFileName;
--extern GEOIP_DATA const char *GeoIPISPDBFileName;
--extern GEOIP_DATA const char *GeoIPLocationADBFileName;
--extern GEOIP_DATA const char *GeoIPAccuracyRadiusFileName;
--extern GEOIP_DATA const char *GeoIPCityConfidenceFileName;
-+extern const char * GeoIPDBDescription[NUM_DB_TYPES];
-+extern const char *GeoIPCountryDBFileName;
-+extern const char *GeoIPRegionDBFileName;
-+extern const char *GeoIPCityDBFileName;
-+extern const char *GeoIPOrgDBFileName;
-+extern const char *GeoIPISPDBFileName;
-+extern const char *GeoIPLocationADBFileName;
-+extern const char *GeoIPAccuracyRadiusFileName;
-+extern const char *GeoIPCityConfidenceFileName;
- extern char * GeoIP_custom_directory;
- 
- /* Warning: do not use those arrays as doing so may break your
-  * program with newer GeoIP versions */
--extern GEOIP_DATA const char GeoIP_country_code[256][3];
--extern GEOIP_DATA const char GeoIP_country_code3[256][4];
--extern GEOIP_DATA const char * GeoIP_country_name[256];
--extern GEOIP_DATA const char * GeoIP_utf8_country_name[256];
--extern GEOIP_DATA const char GeoIP_country_continent[256][3];
-+extern const char GeoIP_country_code[256][3];
-+extern const char GeoIP_country_code3[256][4];
-+extern const char * GeoIP_country_name[256];
-+extern const char * GeoIP_utf8_country_name[256];
-+extern const char GeoIP_country_continent[256][3];
- 
- GEOIP_API void GeoIP_setup_custom_directory(char *dir);
- GEOIP_API GeoIP * GeoIP_open_type(int type, int flags);
+ extern GEOIP_DATA const char *GeoIPDBDescription[NUM_DB_TYPES];
 diff --git a/libGeoIP/pread.h b/libGeoIP/pread.h
-index 7fe4ef3..4c0afc5 100644
+index 4e48949..7b5505a 100644
 --- a/libGeoIP/pread.h
 +++ b/libGeoIP/pread.h
-@@ -24,6 +24,6 @@ typedef int ssize_t;
+@@ -24,4 +24,4 @@ typedef int ssize_t;
  int pread(int fd, void *buf, unsigned int nbyte, long offset);
  #endif
  
 -#define HAVE_PREAD
 +//#define HAVE_PREAD
- 
- extern CRITICAL_SECTION preadsc;
