@@ -2,7 +2,7 @@
 
 set -e
 
-NETTLE_VERSION="3.1"
+NETTLE_VERSION="3.4.1"
 
 . mingw.sh
 
@@ -15,7 +15,7 @@ rm -rf nettle
 
 pushd nettle-$NETTLE_VERSION
 
-CFLAGS="-I $PREFIX/gmp/include" \
+CFLAGS="-std=c99 -I $PREFIX/gmp/include" \
 CXXFLAGS="-I $PREFIX/gmp/include" \
 LDFLAGS="-L $PREFIX/gmp/lib -lgmp" \
 ./configure --host=$TOOLCHAINPREFIX --prefix=$PREFIX/nettle --enable-shared --disable-static
