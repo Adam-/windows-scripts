@@ -32,7 +32,6 @@ popd
 pushd pcre/lib
 # for libtool to find in OpenLDAP
 ln -s libpcreposix.dll.a libregex.a
-ln -s libpcreposix-0.dll libregex.a
 
 echo EXPORTS > libpcre.def
 $TOOLCHAINPREFIX-nm libpcre.dll.a | grep ' T _' | sed 's/.* T _//' >> libpcre.def
