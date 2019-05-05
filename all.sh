@@ -13,6 +13,7 @@ set -e
 ./openldap.sh
 
 ./geoip.sh
+./maxminddb.sh
 
 ./sqlite.sh
 
@@ -23,4 +24,4 @@ set -e
 
 ./strip.sh
 
-tar zcfh windows-libs.tar.gz gmp nettle p11-kit gnutls pcre openldap openssl geoip sqlite libiconv gettext *.bat
+tar zcfh windows-libs.tar.gz gmp nettle p11-kit gnutls pcre openldap openssl geoip maxminddb sqlite libiconv gettext *.bat
