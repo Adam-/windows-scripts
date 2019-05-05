@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 LIBICONV_VERSION="1.14"
 
 . mingw.sh

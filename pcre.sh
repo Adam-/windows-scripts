@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 PCRE_VERSION="8.40"
 
 . mingw.sh

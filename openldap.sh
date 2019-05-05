@@ -1,3 +1,6 @@
+#!/bin/bash
+
+set -e
 
 OPENLDAP_VERSION="2.4.44"
 

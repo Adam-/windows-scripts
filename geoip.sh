@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 GEOIP_VERSION="1.6.9"
 
 . mingw.sh

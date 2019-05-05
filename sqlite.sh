@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 SQLITE_VERSION="3160200"
 
 . mingw.sh

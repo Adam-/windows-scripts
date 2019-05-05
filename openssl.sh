@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 OPENSSL_VERSION="1.0.2m"
 
 . vars.sh

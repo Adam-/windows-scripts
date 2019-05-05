@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 GNUTLS_VERSION="3.5.16"
 
 . mingw.sh

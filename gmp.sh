@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 GMP_VERSION="6.0.0a"
 GMP_DIR="6.0.0"
 

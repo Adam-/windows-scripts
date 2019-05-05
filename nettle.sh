@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 NETTLE_VERSION="3.1"
 
 . mingw.sh

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 GETTEXT_VERSION="0.19.3"
 
 . mingw.sh
