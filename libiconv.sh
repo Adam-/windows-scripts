@@ -2,7 +2,7 @@
 
 set -e
 
-LIBICONV_VERSION="1.14"
+LIBICONV_VERSION="1.17"
 
 . mingw.sh
 

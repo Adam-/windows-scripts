@@ -2,12 +2,12 @@
 
 set -e
 
-PCRE_VERSION="8.40"
+PCRE_VERSION="8.45"
 
 . mingw.sh
 
 if [ ! -f pcre-$PCRE_VERSION.tar.gz ] ; then
-	wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-$PCRE_VERSION.tar.gz
+	wget https://downloads.sourceforge.net/project/pcre/pcre/$PCRE_VERSION/pcre-$PCRE_VERSION.tar.gz
 fi
 rm -rf pcre-$PCRE_VERSION
 tar zxf pcre-$PCRE_VERSION.tar.gz
